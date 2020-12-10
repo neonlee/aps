@@ -25,25 +25,32 @@ class _SignUpPageState extends State<SignUpPage> {
         padding: EdgeInsets.all(15),
         child: Column(
           children: [
-            TextField(
+            TextFormField(
+              validator: (data) {
+                if (data.isEmpty || data.contains("@")) {
+                  return "Insira um email valido";
+                } else {
+                  return null;
+                }
+              },
               controller: email,
               decoration: InputDecoration(labelText: "Email"),
             ),
-            TextField(
+            TextFormField(
               controller: password,
               enabled: true,
               obscureText: true,
               decoration: InputDecoration(labelText: "Senha"),
             ),
-            TextField(
+            TextFormField(
               controller: name,
               decoration: InputDecoration(labelText: "Nome Completo"),
             ),
-            TextField(
+            TextFormField(
               controller: users,
               decoration: InputDecoration(labelText: "Nome de usuário"),
             ),
-            TextField(
+            TextFormField(
               controller: year,
               decoration: InputDecoration(labelText: "Idade"),
             ),

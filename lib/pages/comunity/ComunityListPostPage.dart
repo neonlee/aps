@@ -1,5 +1,6 @@
 import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
 import 'package:aps/Controller/ComunityPostController.dart';
+import 'package:aps/Models/ComunityPost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -44,25 +45,34 @@ class _ComunityPostPageState extends State<ComunityPostPage> {
                         new ListTile(
                           title: Center(
                               child: new Text(
-                            document.data()['description'],
+                            document.data()['description'] ?? "",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           )),
-                          subtitle: new Text(document.data()['title']),
+                          subtitle: new Text(document.data()['title'] ?? ""),
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             FlatButton.icon(
-                              icon: Icon(Icons.thumb_up),
-                              onPressed: () {},
+                              icon: Icon(
+                                Icons.thumb_up,
+                                color: document.data()['like'] == 1
+                                    ? Colors.blue
+                                    : Colors.black,
+                              ),
+                              onPressed: () {
+                                ComunityPost comunityPost = ComunityPost(
+                                  description: document.data()['description'],
+                                  title: document.data()['title'],
+                                  uid: document.data()['uid'],
+                                  like: document.data()['like'] == 1 ? 0 : 1,
+                                );
+                                comunityPostController.update(
+                                    document.id, comunityPost);
+                              },
                               label: Text("Curta"),
-                            ),
-                            FlatButton.icon(
-                              icon: Icon(Icons.comment),
-                              onPressed: () {},
-                              label: Text("Comente"),
                             ),
                             FlatButton.icon(
                                 onPressed: () {},

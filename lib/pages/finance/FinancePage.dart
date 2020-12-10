@@ -28,40 +28,69 @@ class _FinancePageState extends State<FinancePage> {
 
             return new ListView(
               children: snapshot.data.docs.map((DocumentSnapshot document) {
+                Color color;
+                switch (document.data()['type']) {
+                  case "Investimento":
+                    color = Colors.green;
+                    break;
+                  case "Divida":
+                    color = Colors.red;
+                    break;
+                  case "Recebimento":
+                    color = Colors.blueAccent;
+                    break;
+                  default:
+                }
                 return Card(
-                  child: Column(
+                  child: Row(
                     children: [
-                      new ListTile(
-                        title: new Text(
-                            "R\$ " + document.data()['value'].toString()),
-                        subtitle: new Text(document.data()['name']),
+                      Container(
+                        width: 50,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        color: color,
                       ),
-                      Row(
-                        children: [
-                          FlatButton.icon(
-                            icon: Icon(Icons.remove_red_eye),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, '/financeview/${document.id}');
-                            },
-                            label: Text("Visualizar"),
+                      Expanded(
+                        child: new ListTile(
+                          title: new Text(document.data()['value'].toString()),
+                          subtitle: new Text(document.data()['name']),
+                        ),
+                      ),
+                      PopupMenuButton<int>(
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: 1,
+                            child: FlatButton.icon(
+                              icon: Icon(Icons.remove_red_eye),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, '/financeview/${document.id}');
+                              },
+                              label: Text("Visualizar"),
+                            ),
                           ),
-                          FlatButton.icon(
-                            icon: Icon(Icons.border_color),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, '/financeedit/${document.id}');
-                            },
-                            label: Text("Editar"),
+                          PopupMenuItem(
+                            value: 2,
+                            child: FlatButton.icon(
+                              icon: Icon(Icons.border_color),
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, '/financeedit/${document.id}');
+                              },
+                              label: Text("Editar"),
+                            ),
                           ),
-                          FlatButton.icon(
+                          PopupMenuItem(
+                            value: 3,
+                            child: FlatButton.icon(
                               onPressed: () {
                                 FinanceController financeController =
                                     FinanceController();
                                 financeController.delete(document.id);
                               },
                               icon: Icon(Icons.cancel),
-                              label: Text("Excluir")),
+                              label: Text("Excluir"),
+                            ),
+                          ),
                         ],
                       )
                     ],

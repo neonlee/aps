@@ -66,17 +66,14 @@ class _ListComunityUserPostState extends State<ListComunityUserPost> {
                           ],
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             FlatButton.icon(
-                              icon: Icon(Icons.thumb_up),
+                              icon: Icon(
+                                Icons.thumb_up,
+                              ),
                               onPressed: () {},
                               label: Text("Curta"),
-                            ),
-                            FlatButton.icon(
-                              icon: Icon(Icons.comment),
-                              onPressed: () {},
-                              label: Text("Comente"),
                             ),
                             FlatButton.icon(
                                 onPressed: () {},

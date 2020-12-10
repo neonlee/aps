@@ -1,3 +1,4 @@
+import 'package:aps/pages/FeedPage.dart';
 import 'package:flutter/material.dart';
 import 'package:aps/pages/comunity/ComunityListPostPage.dart';
 import 'package:aps/pages/configure/ConfigurePage.dart';
@@ -17,7 +18,7 @@ class _BodyPageNavigatorState extends State<BodyPageNavigator> {
   Text title;
   Color appBarColor;
   List<Widget> _widgetOptions = [
-    Text("Data1"),
+    FeedPage(),
     FinancePage(),
     ComunityPostPage(),
     ConfigurePage()
@@ -28,7 +29,7 @@ class _BodyPageNavigatorState extends State<BodyPageNavigator> {
       _selectedIndex = index;
       switch (_selectedIndex) {
         case 0:
-          title = Text('');
+          title = Text('Feed');
           break;
         case 1:
           title = Text('Finanças');
@@ -48,7 +49,9 @@ class _BodyPageNavigatorState extends State<BodyPageNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: title,
+      ),
       body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

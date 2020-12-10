@@ -13,7 +13,12 @@ class UserController {
       _collection.doc(documentId).update(person.toJson());
 
   void delete(String documentId) => _collection.doc(documentId).delete();
+
   DocumentReference list() {
     return _collection.doc(user);
+  }
+
+  Future<DocumentSnapshot> listUser(String userId) {
+    return _collection.doc(userId).get();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aps/Controller/FinanceController.dart';
 import 'package:aps/Models/Finance.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class AddFinance extends StatefulWidget {
   @override
@@ -15,6 +16,11 @@ class _AddFinanceState extends State<AddFinance> {
   TextEditingController name = TextEditingController();
   TextEditingController value = TextEditingController();
   TextEditingController date = TextEditingController();
+  var valueMask = new MaskTextInputFormatter(
+      mask: 'R\$###,##', filter: {"#": RegExp(r'[0-9]')});
+
+  var dateMask = new MaskTextInputFormatter(
+      mask: '##/##/####', filter: {"#": RegExp(r'[0-9]')});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +79,7 @@ class _AddFinanceState extends State<AddFinance> {
               decoration: InputDecoration(labelText: "Descrição"),
             ),
             TextField(
+              inputFormatters: [dateMask],
               keyboardType: TextInputType.datetime,
               controller: date,
               decoration: InputDecoration(labelText: labelData),
@@ -80,6 +87,7 @@ class _AddFinanceState extends State<AddFinance> {
             TextField(
               keyboardType: TextInputType.number,
               controller: value,
+              inputFormatters: [valueMask],
               decoration: InputDecoration(labelText: "Valor"),
             ),
             SizedBox(

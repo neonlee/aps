@@ -13,6 +13,7 @@ class _AddComunityPostPageState extends State<AddComunityPostPage> {
   TextEditingController description = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    ComunityPostController comunityPostController = ComunityPostController();
     return Scaffold(
       appBar: AppBar(),
       body: Container(
@@ -37,9 +38,13 @@ class _AddComunityPostPageState extends State<AddComunityPostPage> {
               height: 15,
             ),
             OutlineButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  comunityPostController.getImage();
+                  //comunityPostController.addImageToFirebase();
+                },
                 icon: Icon(Icons.image),
                 label: Text("Insira uma imagem")),
+            comunityPostController.getImageU(),
             SizedBox(
               height: 15,
             ),
@@ -49,11 +54,12 @@ class _AddComunityPostPageState extends State<AddComunityPostPage> {
                   ComunityPost comunityPost = ComunityPost(
                       uid: user,
                       title: title.text,
-                      description: description.text);
+                      description: description.text,
+                      like: 0);
                   ComunityPostController comunityPostController =
                       ComunityPostController();
                   comunityPostController.add(comunityPost);
-                  Navigator.pushNamed(context, '/comunitypostlist');
+                  Navigator.pushNamed(context, '/listcomunityuserpost');
                 },
                 child: Text("Salvar"))
           ],

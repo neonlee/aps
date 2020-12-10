@@ -14,32 +14,34 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          children: [
-            TextField(
-              controller: email,
-              decoration: InputDecoration(labelText: "Email"),
-            ),
-            TextField(
-              controller: password,
-              enabled: true,
-              obscureText: true,
-              decoration: InputDecoration(labelText: "Senha"),
-            ),
-            RaisedButton(
-              onPressed: () {
-                signIn(email.text, password.text).whenComplete(
-                    () => Navigator.pushNamed(context, '/bodypagenavigator/1'));
-              },
-              color: Colors.blue,
-              child: Text(
-                "Entre",
-                style: style,
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            children: [
+              TextField(
+                controller: email,
+                decoration: InputDecoration(labelText: "Email"),
               ),
-            ),
-          ],
+              TextField(
+                controller: password,
+                enabled: true,
+                obscureText: true,
+                decoration: InputDecoration(labelText: "Senha"),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  signIn(email.text, password.text).whenComplete(() =>
+                      Navigator.pushNamed(context, '/bodypagenavigator/1'));
+                },
+                color: Colors.blue,
+                child: Text(
+                  "Entre",
+                  style: style,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

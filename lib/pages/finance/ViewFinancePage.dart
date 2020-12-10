@@ -15,7 +15,11 @@ class _ViewFinancePageState extends State<ViewFinancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          "Detalhes de sua conta",
+        ),
+      ),
       body: Container(
         child: FutureBuilder<DocumentSnapshot>(
           future: finance.list().doc('${widget.uid}').get(),
@@ -27,21 +31,83 @@ class _ViewFinancePageState extends State<ViewFinancePage> {
 
             if (snapshot.connectionState == ConnectionState.done) {
               Map<String, dynamic> data = snapshot.data.data();
-              return Column(
+              Color color;
+              switch (data['type']) {
+                case "Investimento":
+                  color = Colors.green;
+                  break;
+                case "Divida":
+                  color = Colors.red;
+                  break;
+                case "Recebimento":
+                  color = Colors.blueAccent;
+                  break;
+                default:
+              }
+              return ListView(
                 children: [
-                  Center(
-                      child: Text(
-                    "Detalhes de sua conta",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )),
                   Container(
-                    child: Text("${data['type']}"),
-                    color: Colors.greenAccent,
+                    height: MediaQuery.of(context).size.width * 0.15,
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text(
+                            "${data['type']}",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Center(
+                          child: Text(
+                            "Data: ${data['date']}",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        )
+                      ],
+                    ),
+                    color: color,
                   ),
-                  Text("Valor R\$${data['value']}"),
-                  Text("Nome da conta: ${data['name']}"),
-                  Text("Descrição: ${data['description']}"),
-                  Text("Data: ${data['date']}"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Valor: ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 110,
+                      ),
+                      Text("R\$${data['value']}")
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Nome da conta:",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Text("${data['name']}"),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Descrição: ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      Text("${data['description']}"),
+                    ],
+                  ),
                 ],
               );
             }

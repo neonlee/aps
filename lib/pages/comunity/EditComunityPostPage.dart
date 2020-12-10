@@ -26,40 +26,47 @@ class _EditComunityPostPageState extends State<EditComunityPostPage> {
                   TextEditingController(text: snapshot.data['description']);
               TextEditingController title =
                   TextEditingController(text: snapshot.data['title']);
-
               if (!snapshot.hasData) return CircularProgressIndicator();
-              return Container(
-                padding: EdgeInsets.all(15),
-                child: ListView(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: title,
-                    ),
-                    TextFormField(
-                      controller: description,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      color: Colors.amber[800],
-                      child: FlatButton(
-                        onPressed: () {
-                          String user = FirebaseAuth.instance.currentUser.uid;
-                          ComunityPost comunityPost = ComunityPost(
-                              description: description.text,
-                              title: title.text,
-                              uid: user);
-                          comunityPostController.update(
-                              widget.uid, comunityPost);
-                          Navigator.pushNamed(context, '/bodypagenavigator/2');
-                        },
-                        child: Text("Salvar"),
+
+              if (snapshot.connectionState == ConnectionState.done)
+                return Container(
+                  padding: EdgeInsets.all(15),
+                  child: ListView(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: title,
                       ),
-                    ),
-                  ],
-                ),
-              );
+                      TextFormField(
+                        controller: description,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      RaisedButton.icon(
+                        icon: Icon(Icons.image),
+                        onPressed: () {},
+                        label: Text("Imagem"),
+                      ),
+                      Container(
+                        color: Colors.amber[800],
+                        child: FlatButton(
+                          onPressed: () {
+                            String user = FirebaseAuth.instance.currentUser.uid;
+                            ComunityPost comunityPost = ComunityPost(
+                                description: description.text,
+                                title: title.text,
+                                uid: user);
+                            comunityPostController.update(
+                                widget.uid, comunityPost);
+                            Navigator.pushNamed(
+                                context, '/bodypagenavigator/2');
+                          },
+                          child: Text("Salvar"),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
             }),
       ),
     );
